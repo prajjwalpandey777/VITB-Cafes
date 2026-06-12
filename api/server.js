@@ -2,6 +2,7 @@
 require('dotenv').config({ path: require('path').join(__dirname, '../.env') });
 
 const express        = require('express');
+const compression    = require('compression');
 const cors           = require('cors');
 const connectDB      = require('./db/connect');
 const ratingsRouter  = require('./routes/ratings');
@@ -9,6 +10,7 @@ const feedbackRouter = require('./routes/feedback');
 const statsRouter    = require('./routes/stats');
 
 const app = express();
+app.use(compression());
 app.set('trust proxy', 1);
 
 // Connect to MongoDB (Mongoose caches — safe for serverless)
