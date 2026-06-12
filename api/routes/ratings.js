@@ -1,3 +1,7 @@
+// Simple in-memory cache
+let cache = { data: null, time: 0 };
+const CACHE_TTL = 30 * 1000; // 30 seconds
+
 // api/routes/ratings.js
 const express    = require('express');
 const router     = express.Router();
@@ -17,6 +21,9 @@ const submitLimiter = rateLimit({
 // GET /api/ratings — all ratings aggregated
 router.get('/', async (req, res) => {
   try {
+    if (cache.data && Date.now() - cache.time < CACHE_TTL) {
+  return res.json(cache.data);
+}
     const aggregated = await Rating.aggregate([
       {
         $group: {
@@ -42,6 +49,7 @@ router.get('/', async (req, res) => {
           .slice(0, 100),
       };
     }
+    cache = { data: result, time: Date.now() };
     res.json(result);
   } catch (err) {
     console.error(err);
