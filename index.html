@@ -1557,7 +1557,7 @@ function runSearch(q){
       <div class="r-right">
         ${scoreBox}
         <button class="mini-rate" style="background:${h.cafe.btn}"
-          onclick="event.stopPropagation();openModal('${h.cafe.id}','${h.item.name.replace(/'/g,"\\'")}')"
+          onclick="event.stopPropagation();openModal('${h.cafe.id}','${h.item.name.replace(/'/g,"\\'")}')">Rate</button>
       </div>
     </div>`;}).join('');
 }
