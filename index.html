@@ -1544,7 +1544,9 @@ function runSearch(q){
         <div class="score-people">${peopleIco}<span style="margin-left:2px">${rd.count} ${rd.count===1?'person':'people'} rated</span></div>
       </div>`:
       `<div class="no-score-box"><div class="no-score-txt">Not yet rated</div></div>`;
-    return`<div class="result-card">
+    return`<div class="result-card" role="button" tabindex="0"
+  onclick="openDishDetails('${h.cafe.id}','${h.item.name.replace(/'/g,"\\'")}')"
+  onkeydown="if(event.target===this&&(event.key==='Enter'||event.key===' ')){event.preventDefault();openDishDetails('${h.cafe.id}','${h.item.name.replace(/'/g,"\\'")}')}">
       <div class="r-rank${rd&&i<3?' medal':''}">${rank}</div>
       <div class="r-mid">
         <div><span class="cpill" style="background:${h.cafe.color}">${h.cafe.name}</span></div>
@@ -1555,7 +1557,7 @@ function runSearch(q){
       <div class="r-right">
         ${scoreBox}
         <button class="mini-rate" style="background:${h.cafe.btn}"
-          onclick="openModal('${h.cafe.id}','${h.item.name.replace(/'/g,"\\'")}')">Rate</button>
+          onclick="event.stopPropagation();openModal('${h.cafe.id}','${h.item.name.replace(/'/g,"\\'")}')"
       </div>
     </div>`;}).join('');
 }
@@ -1575,6 +1577,7 @@ function openModal(cafeId,itemName,mode='rate'){
   document.getElementById('m-name').value='';
   document.getElementById('m-text').value='';
   document.getElementById('m-sub').disabled=true;
+  document.getElementById('m-sub').textContent='Submit Rating';
   document.querySelectorAll('.sp').forEach(s=>s.classList.remove('lit'));
 
   // Current rating block in modal
