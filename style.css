@@ -624,6 +624,11 @@ footer b{color:var(--gold)}
   opacity:0;transition:opacity .3s,transform .3s;
   white-space:nowrap;box-shadow:var(--shadow-lg);
 }
+html.dark-theme .toast{
+  background:#3A2819;
+  color:#FFF3E3;
+  border:1px solid #80613F;
+}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
 /* ══════════════════════════════════════ HAMBURGER MENU */
