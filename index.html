@@ -3,6 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
+<script>
+  try {
+    if (localStorage.getItem('vitb-cafes-theme') === 'dark') {
+      document.documentElement.classList.add('dark-theme');
+    }
+  } catch (_) {}
+</script>
   <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-QQXLDF25ER"></script>
 <script>
@@ -26,6 +33,7 @@
 <link rel="apple-touch-icon" href="/logo.png" />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/style.css">
+
 </head>
 <body>
 <!-- Instagram -->
@@ -44,9 +52,34 @@
   <div class="hero-badge"><span class="dot-pulse"></span>VIT Bhopal University</div>
   <h1 class="hero-title">VITB<em>Cafés</em></h1>
   <p class="hero-sub">Discover, rate &amp; review dishes across all 5 campus cafés — by VITians, for VITians</p>
-  <div class="hero-search">
-    <svg class="srch-ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-    <input type="text" id="search-input" placeholder="Search any dish across all cafés…" autocomplete="off">
+  <div class="hero-search-row">
+    <div class="hero-search">
+      <svg class="srch-ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="search-input" placeholder="Search any dish across all cafés…" autocomplete="off">
+    </div>
+    <div class="pf-wrap" id="pf-wrap">
+      <button class="pf-trigger" id="pf-trigger" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="pf-dropdown">
+        <svg class="pf-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 4.5C3 3.67 3.67 3 4.5 3h15c.83 0 1.5.67 1.5 1.5 0 .36-.13.7-.36.97L14 13.5V20a1 1 0 01-1.45.89l-3-1.5A1 1 0 019 18v-4.5L3.36 5.47A1.5 1.5 0 013 4.5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" fill="currentColor" fill-opacity=".12"/>
+        </svg>
+        <span class="pf-label-text">Price</span>
+        <span class="pf-active-range" id="pf-active-range">All Prices</span>
+        <svg class="pf-chevron" viewBox="0 0 12 8" fill="none">
+          <path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <div class="pf-dropdown" id="pf-dropdown" role="group" aria-label="Filter dishes by price">
+        <div class="pf-dd-title">💰 Select Price Range</div>
+        <div class="pf-options">
+          <label class="pf-opt active"><input class="pf-checkbox" type="radio" name="price-range" data-min="0" data-max="99999" checked><span>All Prices</span></label>
+          <label class="pf-opt"><input class="pf-checkbox" type="radio" name="price-range" data-min="0" data-max="99"><span>Under ₹100</span></label>
+          <label class="pf-opt"><input class="pf-checkbox" type="radio" name="price-range" data-min="100" data-max="150"><span>₹100 – ₹150</span></label>
+          <label class="pf-opt"><input class="pf-checkbox" type="radio" name="price-range" data-min="151" data-max="200"><span>₹151 – ₹200</span></label>
+          <label class="pf-opt"><input class="pf-checkbox" type="radio" name="price-range" data-min="201" data-max="250"><span>₹201 – ₹250</span></label>
+          <label class="pf-opt"><input class="pf-checkbox" type="radio" name="price-range" data-min="251" data-max="99999"><span>Above ₹250</span></label>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="stats-row">
     <div class="stat"><div class="stat-n">5</div><div class="stat-l">Cafés</div></div>
@@ -57,8 +90,6 @@
 
 <!-- ══════════════════════════════════════ STICKY NAV -->
 <nav class="nav-wrap"><div class="nav-inner" id="cafe-tabs"></div></nav>
-
-<!-- ══════════════════════════════════════ SEARCH VIEW -->
 <div id="search-view">
   <div class="content">
     <div class="sh">
@@ -125,6 +156,7 @@
 </div>
 
 <!-- ══════════════════════════════════════ HAMBURGER MENU -->
+<button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark theme" aria-pressed="false" title="Switch to dark theme"></button>
 <button class="hbg-btn" id="hbg-btn" aria-label="Menu">
   <span class="hbg-line"></span>
   <span class="hbg-line"></span>
@@ -168,9 +200,12 @@
         <div class="about-steps">
           <div class="about-step"><div class="step-n">1</div><div class="step-txt"><b>Pick a café</b> from the tab bar — Mayuri, Underbelly, Spl Block, Dakshin, or Bistro.</div></div>
           <div class="about-step"><div class="step-n">2</div><div class="step-txt"><b>Filter by category</b> (Dosa, Pizza, Momos…) to browse faster. Items are shown <b>best-rated first</b>.</div></div>
-          <div class="about-step"><div class="step-n">3</div><div class="step-txt"><b>Search any dish</b> across all cafés at once using the search bar — results are ranked by rating.</div></div>
-          <div class="about-step"><div class="step-n">4</div><div class="step-txt"><b>Rate &amp; review</b> any dish by clicking the button on its card. Your rating helps the community!</div></div>
-          <div class="about-step"><div class="step-n">5</div><div class="step-txt"><b>Send feedback</b> via the Feedback section below — suggest new dishes, report pricing issues, or request features.</div></div>
+          <div class="about-step"><div class="step-n">3</div><div class="step-txt"><b>Filter by price</b> with the Price button beside search. Scroll through the ranges and choose one to show only dishes in that range.</div></div>
+          <div class="about-step"><div class="step-n">4</div><div class="step-txt"><b>Search any dish</b> across all cafés at once using the search bar — results are ranked by rating.</div></div>
+          <div class="about-step"><div class="step-n">5</div><div class="step-txt"><b>Rate &amp; review</b> any dish by clicking the button on its card. Your rating helps the community!</div></div>
+          <div class="about-step"><div class="step-n">6</div><div class="step-txt"><b>Change the theme</b> with the sun/moon button at the top. Your choice is saved on this device until you change it again.</div></div>
+          <div class="about-step"><div class="step-n">7</div><div class="step-txt"><b>Return to the top</b> with the gold arrow in the bottom-right corner after you scroll down.</div></div>
+          <div class="about-step"><div class="step-n">8</div><div class="step-txt"><b>Send feedback</b> via the Feedback section below — suggest new dishes, report pricing issues, or request features.</div></div>
         </div>
       </div>
       <div class="about-section">
@@ -197,21 +232,24 @@
     <!-- Current rating summary shown in modal -->
     <div id="m-cur-block"></div>
     <div class="m-body">
-      <div class="plabel">Your Rating</div>
-      <div class="spick" id="spick">
-        <button class="sp" data-v="1">★</button>
-        <button class="sp" data-v="2">★</button>
-        <button class="sp" data-v="3">★</button>
-        <button class="sp" data-v="4">★</button>
-        <button class="sp" data-v="5">★</button>
-      </div>
-      <label class="mfl-label">Your name <span style="color:var(--text3);font-weight:300">(optional)</span></label>
-      <input class="mfl" id="m-name" type="text" placeholder="Anonymous VITian" maxlength="40">
-      <label class="mfl-label">Review <span style="color:var(--text3);font-weight:300">(optional)</span></label>
-      <textarea class="mfl" id="m-text" placeholder="Was it fresh? Spicy? Worth every rupee? Tell fellow VITians…" maxlength="250"></textarea>
-      <div class="m-actions">
-        <button class="m-cancel-btn" id="m-cancel">Cancel</button>
-        <button class="m-sub-btn" id="m-sub" disabled>Submit Rating</button>
+      <div class="m-view-heading">Ratings &amp; Reviews</div>
+      <div id="m-rate-controls">
+        <div class="plabel">Your Rating</div>
+        <div class="spick" id="spick">
+          <button class="sp" data-v="1">★</button>
+          <button class="sp" data-v="2">★</button>
+          <button class="sp" data-v="3">★</button>
+          <button class="sp" data-v="4">★</button>
+          <button class="sp" data-v="5">★</button>
+        </div>
+        <label class="mfl-label">Your name <span style="color:var(--text3);font-weight:300">(optional)</span></label>
+        <input class="mfl" id="m-name" type="text" placeholder="Anonymous VITian" maxlength="40">
+        <label class="mfl-label">Review <span style="color:var(--text3);font-weight:300">(optional)</span></label>
+        <textarea class="mfl" id="m-text" placeholder="Was it fresh? Spicy? Worth every rupee? Tell fellow VITians…" maxlength="250"></textarea>
+        <div class="m-actions">
+          <button class="m-cancel-btn" id="m-cancel">Cancel</button>
+          <button class="m-sub-btn" id="m-sub" disabled>Submit Rating</button>
+        </div>
       </div>
       <div id="m-revs"></div>
     </div>
@@ -1234,7 +1272,9 @@ function ratingBlockHtml(cafeId,itemName){
 ══════════════════════════════════════ */
 const ckey=(c,n)=>'ic_'+c+'_'+n.replace(/\W+/g,'_');
 function cardH(cafe,item){
-  return`<div class="item-card" id="${ckey(cafe.id,item.name)}" style="--cafe-accent:${cafe.color}">
+  return`<div class="item-card" id="${ckey(cafe.id,item.name)}" style="--cafe-accent:${cafe.color}" role="button" tabindex="0" aria-label="View ratings and reviews for ${item.name}"
+    onclick="openDishDetails('${cafe.id}','${item.name.replace(/'/g,"\\'")}')"
+    onkeydown="if(event.target===this&&(event.key==='Enter'||event.key===' ')){event.preventDefault();openDishDetails('${cafe.id}','${item.name.replace(/'/g,"\\'")}')}">
     <div class="ic-body">
       <div class="ic-cat">${item.cat}</div>
       <div class="ic-name">${item.name}</div>
@@ -1242,7 +1282,7 @@ function cardH(cafe,item){
     </div>
     ${ratingBlockHtml(cafe.id,item.name)}
     <button class="rate-btn" style="background:${cafe.btn}"
-      onclick="openModal('${cafe.id}','${item.name.replace(/'/g,"\\'")}')">Rate &amp; Review this Dish</button>
+      onclick="event.stopPropagation();openModal('${cafe.id}','${item.name.replace(/'/g,"\\'")}')">Rate &amp; Review this Dish</button>
   </div>`;
 }
 
@@ -1288,11 +1328,156 @@ function buildUI(){
         ${cats.map((c,ci)=>`<button class="cat-btn${ci===0?' active':''}" data-cafe="${cafe.id}" data-cat="${c}">${c}</button>`).join('')}
       </div>
       <div class="menu-grid" id="grid_${cafe.id}">
-        ${[...cafe.items].sort((a,b)=>{const ra=getAvg(cafe.id,a.name),rb=getAvg(cafe.id,b.name);if(!ra&&!rb)return 0;if(!ra)return 1;if(!rb)return-1;if(rb.avg!==ra.avg)return rb.avg-ra.avg;return rb.count-ra.count;}).map(it=>cardH(cafe,it)).join('')}
+        ${getFilteredItems(cafe, 'All').map(it=>cardH(cafe,it)).join('')}
       </div>
     </div>`;}).join('');
   refreshStats();
 }
+
+/* ══════════════════════════════════════ PRICE FILTER */
+// Active price range — default = all prices
+let priceMin = 0, priceMax = 99999;
+
+// Helper: does item pass current price filter?
+const passPrice = item => {
+  // Accept numeric prices as well as values such as "₹120" from future menu data.
+  const price = Number.parseFloat(String(item.price).replace(/[^\d.]/g, ''));
+  return Number.isFinite(price) && price >= priceMin && price <= priceMax;
+};
+
+function sortByRating(cafe, items){
+  return [...items].sort((a,b)=>{
+    const ra=getAvg(cafe.id,a.name),rb=getAvg(cafe.id,b.name);
+    if(!ra&&!rb)return 0;if(!ra)return 1;if(!rb)return-1;
+    if(rb.avg!==ra.avg)return rb.avg-ra.avg;
+    return rb.count-ra.count;
+  });
+}
+
+function getFilteredItems(cafe, category='All'){
+  return sortByRating(cafe, cafe.items.filter(item =>
+    (category === 'All' || item.cat === category) && passPrice(item)
+  ));
+}
+
+function renderCafeGrid(cafe, category='All'){
+  const grid = document.getElementById('grid_'+cafe.id);
+  if(!grid) return;
+  const filtered = getFilteredItems(cafe, category);
+  grid.innerHTML = filtered.length
+    ? filtered.map(item=>cardH(cafe,item)).join('')
+    : `<div style="grid-column:1/-1;text-align:center;padding:3rem 1rem;color:var(--text3);font-size:.9rem">
+        No dishes found in this price range for this category.
+      </div>`;
+}
+
+// Label for current active price range
+const priceLabel = () => {
+  if(priceMax === 99999 && priceMin === 0) return null;
+  if(priceMin === 0)    return 'Under ₹100';
+  if(priceMax === 99999) return 'Above ₹250';
+  return `₹${priceMin}–${priceMax}`;
+};
+
+// Re-render ALL active cafe grids with current cat + price filter
+function applyPriceFilter(){
+  CAFES.forEach(cafe=>{
+    const sec = document.getElementById('sec_'+cafe.id);
+    if(!sec) return;
+    // Find active cat button for this cafe
+    const activeCatBtn = sec.querySelector('.cat-btn.active');
+    const cat = activeCatBtn ? activeCatBtn.dataset.cat : 'All';
+    renderCafeGrid(cafe, cat);
+  });
+  // Also re-run search if active
+  const q = $si ? $si.value.trim() : '';
+  if(q) runSearch(q);
+}
+
+// Price button click handler
+/* ══════════════════════════════════════ PRICE FILTER JS */
+const pfTrigger     = document.getElementById('pf-trigger');
+const pfDropdown    = document.getElementById('pf-dropdown');
+const pfActiveRange = document.getElementById('pf-active-range');
+const priceFilterHero = document.querySelector('.hero');
+const pfWrap = document.getElementById('pf-wrap');
+const pfDropdownHome = document.createComment('price-filter-dropdown-home');
+pfDropdown.before(pfDropdownHome);
+
+function placePriceDropdown(){
+  const triggerBox = pfTrigger.getBoundingClientRect();
+  const dropdownWidth = pfDropdown.offsetWidth || 250;
+  const dropdownHeight = pfDropdown.offsetHeight || 260;
+  const left = Math.max(12, Math.min(triggerBox.right - dropdownWidth, window.innerWidth - dropdownWidth - 12));
+  const spaceBelow = window.innerHeight - triggerBox.bottom;
+  const top = spaceBelow >= dropdownHeight + 12
+    ? triggerBox.bottom + 12
+    : Math.max(12, triggerBox.top - dropdownHeight - 12);
+  pfDropdown.style.left = `${left}px`;
+  pfDropdown.style.top = `${top}px`;
+}
+
+function openPf(){
+  // Put the menu directly under <body> while open so no parent section can
+  // clip it or layer ratings and other content above the checkboxes.
+  document.body.appendChild(pfDropdown);
+  pfDropdown.classList.add('floating');
+  placePriceDropdown();
+  pfTrigger.classList.add('open');
+  pfTrigger.setAttribute('aria-expanded','true');
+  pfDropdown.classList.add('open');
+  document.body.classList.add('price-filter-open');
+  priceFilterHero.classList.add('price-filter-open');
+}
+function closePf(){
+  pfTrigger.classList.remove('open');
+  pfTrigger.setAttribute('aria-expanded','false');
+  pfDropdown.classList.remove('open');
+  document.body.classList.remove('price-filter-open');
+  priceFilterHero.classList.remove('price-filter-open');
+  pfDropdown.classList.remove('floating');
+  pfDropdown.style.left='';
+  pfDropdown.style.top='';
+  pfDropdownHome.after(pfDropdown);
+}
+pfTrigger.addEventListener('click', e=>{
+  e.stopPropagation();
+  pfDropdown.classList.contains('open') ? closePf() : openPf();
+});
+document.addEventListener('click', e=>{
+  if(!pfTrigger.contains(e.target) && !pfDropdown.contains(e.target)) closePf();
+});
+document.addEventListener('keydown', e=>{
+  if(e.key === 'Escape') closePf();
+});
+window.addEventListener('resize', ()=>{
+  if(pfDropdown.classList.contains('open')) placePriceDropdown();
+});
+// Keep wheel scrolling inside the price list instead of passing it to the page.
+const pfOptions = document.querySelector('.pf-options');
+pfOptions.addEventListener('wheel', e=>{
+  const atTop = pfOptions.scrollTop <= 0;
+  const atBottom = Math.ceil(pfOptions.scrollTop + pfOptions.clientHeight) >= pfOptions.scrollHeight;
+  if((e.deltaY < 0 && atTop) || (e.deltaY > 0 && atBottom)) e.preventDefault();
+}, {passive:false});
+document.querySelectorAll('.pf-checkbox').forEach(input=>{
+  input.addEventListener('change', ()=>{
+    document.querySelectorAll('.pf-opt').forEach(option=>
+      option.classList.toggle('active', option.contains(input))
+    );
+    priceMin = parseInt(input.dataset.min, 10);
+    priceMax = parseInt(input.dataset.max, 10);
+    if(priceMin===0 && priceMax===99999){
+      pfActiveRange.textContent='All Prices';
+      pfActiveRange.classList.remove('visible');
+    } else {
+      pfActiveRange.textContent = input.parentElement.textContent.trim();
+      pfActiveRange.classList.add('visible');
+    }
+    closePf();
+    applyPriceFilter();
+  });
+});
 
 /* ══════════════════════════════════════ TABS */
 document.getElementById('cafe-tabs').addEventListener('click',e=>{
@@ -1302,6 +1487,8 @@ document.getElementById('cafe-tabs').addEventListener('click',e=>{
   document.querySelectorAll('.cafe-section').forEach(x=>x.classList.remove('active'));
   document.getElementById('sec_'+t.dataset.id).classList.add('active');
   clearSearch();
+  // Re-apply price filter to newly shown cafe
+  applyPriceFilter();
 });
 
 /* ══════════════════════════════════════ CAT FILTER */
@@ -1311,15 +1498,8 @@ document.addEventListener('click',e=>{
   document.querySelectorAll(`#catf_${cid} .cat-btn`).forEach(x=>x.classList.remove('active'));
   b.classList.add('active');
   const cafe=CAFES.find(c=>c.id===cid);
-  const filtered=cafe.items.filter(it=>cat==='All'||it.cat===cat);
-  // Sort by average rating descending; unrated items go to the bottom
-  filtered.sort((a,b)=>{
-    const ra=getAvg(cid,a.name),rb=getAvg(cid,b.name);
-    if(!ra&&!rb)return 0;if(!ra)return 1;if(!rb)return-1;
-    if(rb.avg!==ra.avg)return rb.avg-ra.avg;
-    return rb.count-ra.count;
-  });
-  document.getElementById('grid_'+cid).innerHTML=filtered.map(it=>cardH(cafe,it)).join('');
+  // Apply both category and price filters through the same renderer.
+  renderCafeGrid(cafe, cat);
 });
 
 /* ══════════════════════════════════════ SEARCH */
@@ -1327,6 +1507,11 @@ const $si=document.getElementById('search-input');
 const $sv=document.getElementById('search-view');
 const $mv=document.getElementById('main-view');
 $si.addEventListener('input',()=>{const q=$si.value.trim();if(!q){clearSearch();return}runSearch(q)});
+$si.addEventListener('keydown',e=>{
+  if(e.key!=='Enter'||e.isComposing||!$si.value.trim())return;
+  e.preventDefault();
+  $si.blur(); // Dismiss the mobile keyboard; tap the field again to search more.
+});
 function clearSearch(){$si.value='';$sv.classList.remove('on');$mv.style.display=''}
 function runSearch(q){
   $sv.classList.add('on');$mv.style.display='none';
@@ -1334,15 +1519,19 @@ function runSearch(q){
   const ql=q.toLowerCase();
   const hits=[];
   CAFES.forEach(cafe=>cafe.items.forEach(item=>{
-    if(item.name.toLowerCase().includes(ql)||item.cat.toLowerCase().includes(ql))
+    if((item.name.toLowerCase().includes(ql)||item.cat.toLowerCase().includes(ql)) && passPrice(item))
       hits.push({cafe,item,rd:getAvg(cafe.id,item.name)});
   }));
   hits.sort((a,b)=>{if(!a.rd&&!b.rd)return 0;if(!a.rd)return 1;if(!b.rd)return-1;return b.rd.avg-a.rd.avg});
-  document.getElementById('sh-meta').textContent=hits.length
-    ?`${hits.length} result${hits.length>1?'s':''} across all cafés — ranked best to lowest rated`:'' ;
+  const pl = priceLabel();
+  const badge = pl ? `<span class="price-active-badge">💰 ${pl}</span>` : '';
+  document.getElementById('sh-meta').textContent='';
+  document.getElementById('sh-meta').innerHTML = hits.length
+    ?`${hits.length} result${hits.length>1?'s':''} across all cafés — ranked best to lowest rated${badge}`
+    :'';
   const list=document.getElementById('rlist');
   if(!hits.length){
-    list.innerHTML='<div class="no-res"><p>No dishes found</p>Try "Maggi", "Tea", "Dosa" or "Coffee"</div>';return;
+    list.innerHTML=`<div class="no-res"><p>No dishes found</p>${pl?`No dishes in <b>${pl}</b> range matching "${q}". Try a different price range or search term.`:'Try "Maggi", "Tea", "Dosa" or "Coffee"'}</div>`;return;
   }
   const M=['🥇','🥈','🥉'];
   list.innerHTML=hits.map((h,i)=>{
@@ -1373,7 +1562,11 @@ function runSearch(q){
 
 /* ══════════════════════════════════════ MODAL */
 let am=null,pr=0;
-function openModal(cafeId,itemName){
+const dishModal=document.querySelector('#overlay .modal');
+function openDishDetails(cafeId,itemName){openModal(cafeId,itemName,'view')}
+function openModal(cafeId,itemName,mode='rate'){
+  const viewOnly=mode==='view';
+  dishModal.classList.toggle('view-mode',viewOnly);
   const cafe=CAFES.find(c=>c.id===cafeId);
   am={cafeId,itemName};pr=0;
   document.getElementById('m-cpill').textContent=cafe.name;
@@ -1416,7 +1609,7 @@ function openModal(cafeId,itemName){
         <span style="color:#F0A030;font-size:.82rem">${'★'.repeat(r.rating)}<span style="color:#D0B898">${'★'.repeat(5-r.rating)}</span></span>
         <span class="m-rv-name">${r.name}</span>
       </div>
-      ${(r.review||r.text)?`<div class="m-rv-text">${r.review||r.text}</div>`:''}</div>`).join('')}`:'';
+      ${(r.review||r.text)?`<div class="m-rv-text">${r.review||r.text}</div>`:''}</div>`).join('')}`:(viewOnly?`<div class="m-no-reviews">No written reviews yet.</div>`:'');
 
   document.getElementById('overlay').classList.add('open');
 }
@@ -1436,7 +1629,7 @@ document.querySelectorAll('.sp').forEach(s=>{
   });
 });
 
-function closeModal(){document.getElementById('overlay').classList.remove('open');am=null}
+function closeModal(){document.getElementById('overlay').classList.remove('open');dishModal.classList.remove('view-mode');am=null}
 document.getElementById('m-close').addEventListener('click',closeModal);
 document.getElementById('m-cancel').addEventListener('click',closeModal);
 document.getElementById('overlay').addEventListener('click',e=>{if(e.target===document.getElementById('overlay'))closeModal()});
@@ -1530,6 +1723,24 @@ async function init() {
 }
 init();
 
+/* ══════════════════════════════════════ THEME TOGGLE */
+const themeToggle=document.getElementById('theme-toggle');
+function setTheme(theme){
+  const isDark=theme==='dark';
+  document.documentElement.classList.toggle('dark-theme',isDark);
+  themeToggle.setAttribute('aria-pressed',String(isDark));
+  const label=isDark?'Switch to light theme':'Switch to dark theme';
+  themeToggle.setAttribute('aria-label',label);
+  themeToggle.title=label;
+  try{localStorage.setItem('vitb-cafes-theme',isDark?'dark':'light')}catch(_){}
+}
+let savedTheme='light';
+try{savedTheme=localStorage.getItem('vitb-cafes-theme')||'light'}catch(_){}
+setTheme(savedTheme);
+themeToggle.addEventListener('click',()=>{
+  setTheme(document.documentElement.classList.contains('dark-theme')?'light':'dark');
+});
+
 /* ══════════════════════════════════════ HAMBURGER MENU */
 const hbgBtn=document.getElementById('hbg-btn');
 const hbgDd=document.getElementById('hbg-dd');
@@ -1569,6 +1780,20 @@ document.getElementById('about-overlay').addEventListener('click',e=>{
   if(e.target===document.getElementById('about-overlay'))
     document.getElementById('about-overlay').classList.remove('open');
 });
+</script>
+<button class="back-to-top" id="back-to-top" type="button" aria-label="Back to top" title="Back to top">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+</button>
+<script>
+  const backToTopButton = document.getElementById('back-to-top');
+  const updateBackToTopButton = () => {
+    backToTopButton.classList.toggle('show', window.scrollY > 320);
+  };
+  window.addEventListener('scroll', updateBackToTopButton, {passive:true});
+  updateBackToTopButton();
+  backToTopButton.addEventListener('click', () => {
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
 </script>
 </body>
 </html>
