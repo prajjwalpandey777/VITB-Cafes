@@ -584,7 +584,26 @@ textarea.mfl{height:72px;resize:none}
 .m-rv{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-md);padding:.72rem .95rem;margin-bottom:.55rem}
 .m-rv-top{display:flex;align-items:center;gap:.45rem;margin-bottom:.2rem}
 .m-rv-name{font-size:.78rem;font-weight:600;color:var(--text)}
-.m-rv-text{font-size:.8rem;color:var(--text2);line-height:1.5}
+.m-rv-text{
+  font-size:.8rem;
+  color:var(--text2);
+  line-height:1.5;
+  white-space:pre-wrap;
+}
+
+html.dark-theme .m-rv{
+  background:#211911;
+  border-color:#5C472F;
+}
+
+html.dark-theme .m-rv-name{
+  color:#FFF3E3;
+}
+
+html.dark-theme .m-rv-text{
+  color:#F3DBC1 !important;
+  opacity:1;
+}
 
 /* ══════════════════════════════════════ FOOTER */
 footer{
