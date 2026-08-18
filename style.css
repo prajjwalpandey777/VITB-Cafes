@@ -340,6 +340,22 @@ body.price-filter-open{overflow-y:hidden;}
   border:1px solid rgba(200,134,10,.25);
 }
 
+/* Half/Full plate dual pricing */
+/* Half/Full plate dual pricing */
+.ic-price-group{display:flex;gap:.4rem;flex-wrap:wrap}
+.ic-price-pill{
+  display:inline-flex;align-items:baseline;gap:.3rem;
+  background:var(--gold-bg);color:var(--gold);
+  font-size:.78rem;font-weight:600;
+  padding:.2rem .55rem;border-radius:2rem;
+  border:1px solid rgba(200,134,10,.25);
+}
+.ic-price-pill .ppl{
+  font-size:.62rem;font-weight:700;letter-spacing:.04em;
+  text-transform:uppercase;color:var(--text3);
+}
+
+
 /* ═══ RATING BLOCK (the key section) ═══ */
 .rating-block{
   margin:0 1.1rem .85rem;
