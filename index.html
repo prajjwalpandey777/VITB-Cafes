@@ -278,11 +278,11 @@ const CAFES=[
     {name:'Seasonal Fruit Juice', price:100, cat:'Mocktail'},{name:'Cold Drinks', price:35, cat:'Mocktail'},
 
      // SHAKE
-    {name:'Cold Coffee', price:70, cat:'Shake'},{name:'Rose Shake', price:90, cat:'Shake'},
+    {name:'Cold Coffee', priceHalf:70, priceFull:100, cat:'Shake'},{name:'Rose Shake', priceHalf:90, priceFull:120, cat:'Shake'},
     {name:'Strawberry Shake', price:100, cat:'Shake'},{name:'Black Current Shake', price:100, cat:'Shake'},
-    {name:'Banana Shake', price:100, cat:'Shake'},{name:'Mango Shake', price:90, cat:'Shake'},
-    {name:'Chocolate Shake', price:70, cat:'Shake'},{name:'Oreo Milk Shake', price:90, cat:'Shake'},
-    {name:'Kitkat Milk Shake', price:90, cat:'Shake'},
+    {name:'Banana Shake', price:100, cat:'Shake'},{name:'Mango Shake', priceHalf:90, priceFull:130, cat:'Shake'},
+    {name:'Chocolate Shake', priceHalf:70, priceFull:100, cat:'Shake'},{name:'Oreo Milk Shake', priceHalf:90, priceFull:130, cat:'Shake'},
+    {name:'Kitkat Milk Shake', priceHalf:90, priceFull:100, cat:'Shake'},
 
     // LASSI
     {name:'Sweet Lassi', price:80, cat:'Lassi'},{name:'Mango Lassi', price:100, cat:'Lassi'},
@@ -434,8 +434,8 @@ const CAFES=[
   {name:'Dragon Chicken', price:185, cat:'Non Veg Starters'},
   {name:'Chicken Malai Tikka', price:195, cat:'Non Veg Starters'},
   {name:'Chilly Chicken Gravy', price:195, cat:'Non Veg Starters'},
-  {name:'Tandoori Chicken Half', price:230, cat:'Non Veg Starters'},
-  {name:'Tandoori Chicken Full', price:420, cat:'Non Veg Starters'},
+  {name:'Tandoori Chicken Half', priceHalf:230, priceFull:420, cat:'Non Veg Starters'},
+  
 
   // EGG VARIETIES
   {name:'Masala Omelette', price:50, cat:'Egg Varieties'},
@@ -458,24 +458,18 @@ const CAFES=[
   {name:'Chicken Nachos', price:120, cat:'Nachos'},
 
   // VEG PASTA
-  {name:'Penne Alfredo Pasta Small', price:120, cat:'Veg Pasta'},
-  {name:'Penne Arrabiata Pasta Small', price:120, cat:'Veg Pasta'},
-  {name:'Pink Sauce Pasta Small', price:120, cat:'Veg Pasta'},
-  {name:'Basil Sauce Pasta Small', price:130, cat:'Veg Pasta'},
-  {name:'Penne Alfredo Pasta Large', price:180, cat:'Veg Pasta'},
-  {name:'Penne Arrabiata Pasta Large', price:180, cat:'Veg Pasta'},
-  {name:'Pink Sauce Pasta Large', price:180, cat:'Veg Pasta'},
-  {name:'Basil Sauce Pasta Large', price:190, cat:'Veg Pasta'},
+  {name:'Penne Alfredo Pasta', priceHalf:120, priceFull:180, cat:'Veg Pasta'},
+  {name:'Penne Arrabiata Pasta', priceHalf:120, priceFull:180, cat:'Veg Pasta'},
+  {name:'Pink Sauce Pasta', priceHalf:120, priceFull:180, cat:'Veg Pasta'},
+  {name:'Basil Sauce Pasta', priceHalf:130, priceFull:190, cat:'Veg Pasta'},
+  
 
   // NON VEG PASTA
-  {name:'Penne Alfredo Chicken Small', price:150, cat:'Non Veg Pasta'},
-  {name:'Penne Arrabiata Chicken Small', price:150, cat:'Non Veg Pasta'},
-  {name:'Pink Sauce Chicken Pasta Small', price:150, cat:'Non Veg Pasta'},
-  {name:'Basil Sauce Chicken Pasta Small', price:150, cat:'Non Veg Pasta'},
-  {name:'Penne Alfredo Chicken Large', price:195, cat:'Non Veg Pasta'},
-  {name:'Penne Arrabiata Chicken Large', price:195, cat:'Non Veg Pasta'},
-  {name:'Pink Sauce Chicken Pasta Large', price:195, cat:'Non Veg Pasta'},
-  {name:'Basil Sauce Chicken Pasta Large', price:200, cat:'Non Veg Pasta'},
+  {name:'Penne Alfredo Chicken',priceHalf:150, priceFull:195, cat:'Non Veg Pasta'},
+  {name:'Penne Arrabiata Chicken', priceHalf:150, priceFull:195, cat:'Non Veg Pasta'},
+  {name:'Pink Sauce Chicken Pasta',priceHalf:150, priceFull:195, cat:'Non Veg Pasta'},
+  {name:'Basil Sauce Chicken Pasta', priceHalf:150, priceFull:200, cat:'Non Veg Pasta'},
+  
 
   // PASTRY
   {name:'Choco Doughnut', price:50, cat:'Pastry'},
@@ -565,15 +559,15 @@ const CAFES=[
   {name:'Pineapple Juice', price:75, cat:'Fresh Juice'},
 
   // COLD BEVERAGES 
-  {name:'Butterscotch Milkshake', price:60, cat:'Cold Beverages'},
-  {name:'Strawberry Milkshake', price:60, cat:'Cold Beverages'},
-  {name:'Vanilla Milkshake', price:60, cat:'Cold Beverages'},
-  {name:'Chocolate Milkshake', price:60, cat:'Cold Beverages'},
-  {name:'Mango Shake', price:60, cat:'Cold Beverages'},
-  {name:'Cold Coffee', price:60, cat:'Cold Beverages'},
-  {name:'Lemon Ice Tea', price:60, cat:'Cold Beverages'},
-  {name:'Oreo Milkshake', price:70, cat:'Cold Beverages'},
-  {name:'Kitkat Milkshake', price:70, cat:'Cold Beverages'},
+  {name:'Butterscotch Milkshake', priceHalf:60, priceFull:100, cat:'Cold Beverages'},
+  {name:'Strawberry Milkshake', priceHalf:60, priceFull:100, cat:'Cold Beverages'},
+  {name:'Vanilla Milkshake', priceHalf:60, priceFull:100, cat:'Cold Beverages'},
+  {name:'Chocolate Milkshake', priceHalf:60, priceFull:100, cat:'Cold Beverages'},
+  {name:'Mango Shake', priceHalf:60, priceFull:100, cat:'Cold Beverages'},
+  {name:'Cold Coffee', priceHalf:60, priceFull:100, cat:'Cold Beverages'},
+  {name:'Lemon Ice Tea', priceHalf:60, priceFull:100, cat:'Cold Beverages'},
+  {name:'Oreo Milkshake', priceHalf:70, priceFull:105, cat:'Cold Beverages'},
+  {name:'Kitkat Milkshake', priceHalf:70, priceFull:105, cat:'Cold Beverages'},
   {name:'Nutella Milkshake', price:120, cat:'Cold Beverages'},
 
   // Combo
@@ -599,22 +593,22 @@ const CAFES=[
   {name:'Orange Juice', price:100, cat:'Juice'},
 
   // SHAKE 
-  {name:'Rose Shake', price:70, cat:'Shake'},
-  {name:'Black Current Shake', price:70, cat:'Shake'},
-  {name:'Kitkat Shake', price:90, cat:'Shake'},
-  {name:'Oreo Milk Shake', price:100, cat:'Shake'},
-  {name:'Peanut Butter Shake', price:100, cat:'Shake'},
-  {name:'Hazelnut Chocolate Shake', price:120, cat:'Shake'},
-  {name:'Belgian Chocolate Shake', price:120, cat:'Shake'},
-  {name:'Cold Coffee', price:80, cat:'Shake'},
-  {name:'Cold Coffee With Ice Cream', price:90, cat:'Shake'},
-  {name:'Iced Cold Coffee', price:90, cat:'Shake'},
+  {name:'Rose Shake', priceHalf:70, priceFull:100, cat:'Shake'},
+  {name:'Black Current Shake', priceHalf:70, priceFull:100, cat:'Shake'},
+  {name:'Kitkat Shake', priceHalf:90, priceFull:130,, cat:'Shake'},
+  {name:'Oreo Milk Shake', priceHalf:100, priceFull:140, cat:'Shake'},
+  {name:'Peanut Butter Shake', priceHalf:100, priceFull:140, cat:'Shake'},
+  {name:'Hazelnut Chocolate Shake', priceHalf:120, priceFull:170, cat:'Shake'},
+  {name:'Belgian Chocolate Shake', priceHalf:120, priceFull:170, cat:'Shake'},
+  {name:'Cold Coffee', priceHalf:80, priceFull:110, cat:'Shake'},
+  {name:'Cold Coffee With Ice Cream', priceHalf:90, priceFull:130, cat:'Shake'},
+  {name:'Iced Cold Coffee', priceHalf:90, priceFull:120, cat:'Shake'},
 
   // MOCKTAIL
-  {name:'Mint Mojito', price:70, cat:'Mocktail'},
-  {name:'Blue Curacao', price:70, cat:'Mocktail'},
-  {name:'Pink Panther', price:90, cat:'Mocktail'},
-  {name:'Bali Beach', price:90, cat:'Mocktail'},
+  {name:'Mint Mojito', priceHalf:70, priceFull:100, cat:'Mocktail'},
+  {name:'Blue Curacao', priceHalf:70, priceFull:100, cat:'Mocktail'},
+  {name:'Pink Panther', priceHalf:90, priceFull:130, cat:'Mocktail'},
+  {name:'Bali Beach', priceHalf:90, priceFull:130, cat:'Mocktail'},
   {name:'Cold Drink', price:35, cat:'Mocktail'},
 
   // SPECIAL BEVERAGES
@@ -687,21 +681,21 @@ const CAFES=[
   {name:'Jodhpuri Kachori', price:50, cat:'Chaat'},
 
   // VEG TABLES 
-  {name:'Paneer Butter Masala', price:150, cat:'Veg Tables'},
-  {name:'Kadai Paneer', price:170, cat:'Veg Tables'},
-  {name:'Paneer Tikka Masala', price:190, cat:'Veg Tables'},
-  {name:'Paneer Lababdar', price:170, cat:'Veg Tables'},
-  {name:'Seasonal Veg', price:120, cat:'Veg Tables'},
-  {name:'Dal Fry', price:110, cat:'Veg Tables'},
-  {name:'Dal Tadka', price:120, cat:'Veg Tables'},
-  {name:'Dal Makhani', price:140, cat:'Veg Tables'},
+  {name:'Paneer Butter Masala', priceHalf:150, priceFull:220, cat:'Veg Tables'},
+  {name:'Kadai Paneer', priceHalf:170, priceFull:250, cat:'Veg Tables'},
+  {name:'Paneer Tikka Masala', priceHalf:190, priceFull:280, cat:'Veg Tables'},
+  {name:'Paneer Lababdar', priceHalf:170, priceFull:250, cat:'Veg Tables'},
+  {name:'Seasonal Veg', priceHalf:120, priceFull:180, cat:'Veg Tables'},
+  {name:'Dal Fry', priceHalf:110, priceFull:150, cat:'Veg Tables'},
+  {name:'Dal Tadka', priceHalf:120, priceFull:180, cat:'Veg Tables'},
+  {name:'Dal Makhani', priceHalf:140, priceFull:200, cat:'Veg Tables'},
 
   // RICE 
-  {name:'Jeera Rice', price:90, cat:'Rice'},
-  {name:'Mutter Rice', price:110, cat:'Rice'},
-  {name:'Veg Pulao', price:130, cat:'Rice'},
-  {name:'Veg Biryani', price:130, cat:'Rice'},
-  {name:'Plain Rice', price:70, cat:'Rice'},
+  {name:'Jeera Rice', priceHalf:90, priceFull:120, cat:'Rice'},
+  {name:'Mutter Rice', priceHalf:110, priceFull:150, cat:'Rice'},
+  {name:'Veg Pulao', priceHalf:130, priceFull:180, cat:'Rice'},
+  {name:'Veg Biryani', priceHalf:130, priceFull:180, cat:'Rice'},
+  {name:'Plain Rice', priceHalf:70, priceFull:100, cat:'Rice'},
 
   // ROTI 
   {name:'Tandoori Roti', price:30, cat:'Roti'},
@@ -831,8 +825,7 @@ const CAFES=[
 
   // CHICKEN
   {name:'Tandoori Chicken 1/4', price:160, cat:'Chicken'},
-  {name:'Tandoori Chicken 1/2', price:310, cat:'Chicken'},
-  {name:'Tandoori Chicken Full', price:650, cat:'Chicken'},
+  {name:'Tandoori Chicken', priceHalf:310, priceFull:650, cat:'Chicken'},
   {name:'Dragon Chicken', price:210, cat:'Chicken'},
   {name:'Chicken 65', price:210, cat:'Chicken'},
   {name:'Chicken Manchurian', price:210, cat:'Chicken'},
@@ -1271,6 +1264,29 @@ function ratingBlockHtml(cafeId,itemName){
    CARD HTML
 ══════════════════════════════════════ */
 const ckey=(c,n)=>'ic_'+c+'_'+n.replace(/\W+/g,'_');
+
+const hasDualPrice = item => item.priceHalf != null && item.priceFull != null;
+
+function itemPrices(item){
+  if (hasDualPrice(item)) return [item.priceHalf, item.priceFull];
+  return [item.price];
+}
+
+function priceHtml(item){
+  if (hasDualPrice(item)) {
+    return `<div class="ic-price-group">
+      <span class="ic-price-pill"><span class="ppl">Half</span>₹${item.priceHalf}</span>
+      <span class="ic-price-pill"><span class="ppl">Full</span>₹${item.priceFull}</span>
+    </div>`;
+  }
+  return `<div class="ic-price">₹${item.price}</div>`;
+}
+
+function priceText(item){
+  if (hasDualPrice(item)) return `₹${item.priceHalf} / ₹${item.priceFull}`;
+  return `₹${item.price}`;
+}
+  
 function cardH(cafe,item){
   return`<div class="item-card" id="${ckey(cafe.id,item.name)}" style="--cafe-accent:${cafe.color}" role="button" tabindex="0" aria-label="View ratings and reviews for ${item.name}"
     onclick="openDishDetails('${cafe.id}','${item.name.replace(/'/g,"\\'")}')"
@@ -1278,7 +1294,7 @@ function cardH(cafe,item){
     <div class="ic-body">
       <div class="ic-cat">${item.cat}</div>
       <div class="ic-name">${item.name}</div>
-      <div class="ic-price">₹${item.price}</div>
+      ${priceHtml(item)}
     </div>
     ${ratingBlockHtml(cafe.id,item.name)}
     <button class="rate-btn" style="background:${cafe.btn}"
@@ -1340,9 +1356,10 @@ let priceMin = 0, priceMax = 99999;
 
 // Helper: does item pass current price filter?
 const passPrice = item => {
-  // Accept numeric prices as well as values such as "₹120" from future menu data.
-  const price = Number.parseFloat(String(item.price).replace(/[^\d.]/g, ''));
-  return Number.isFinite(price) && price >= priceMin && price <= priceMax;
+  return itemPrices(item).some(p => {
+    const price = Number.parseFloat(String(p).replace(/[^\d.]/g, ''));
+    return Number.isFinite(price) && price >= priceMin && price <= priceMax;
+  });
 };
 
 function sortByRating(cafe, items){
@@ -1551,7 +1568,7 @@ function runSearch(q){
       <div class="r-mid">
         <div><span class="cpill" style="background:${h.cafe.color}">${h.cafe.name}</span></div>
         <div class="r-dish">${h.item.name}</div>
-        <div class="r-info"><span>₹${h.item.price}</span><span>·</span><span>${h.item.cat}</span></div>
+        <div class="r-info"><span>${priceText(h.item)}</span><span>·</span><span>${h.item.cat}</span></div>
         <div class="stars" style="margin-top:5px">${sH}</div>
       </div>
       <div class="r-right">
