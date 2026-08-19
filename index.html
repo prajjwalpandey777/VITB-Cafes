@@ -1146,7 +1146,7 @@ let ratingsCache = {};
 let cacheLoaded  = false;
 
 // Convert item name → same key format used by backend
-const makeKey = n => n.trim().toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_+|_+$/g,'');
+const makeKey = n => n.trim().toLowerCase().replace(/[^a-z0-9]+/g,'_');
 
 // Lookup helper — mirrors old getAvg()
 const getAvg = (cafeId, itemName) => {
