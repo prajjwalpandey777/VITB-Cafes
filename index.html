@@ -1146,16 +1146,29 @@ let ratingsCache = {};
 let cacheLoaded  = false;
 
 // Convert item name → same key format used by backend
-const makeKey = n => n.trim().toLowerCase().replace(/[^a-z0-9]+/g,'_');
+const makeKey = n => n.trim().toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_+|_+$/g,'');
 
 // Lookup helper — mirrors old getAvg()
-const getAvg = (cafeId, itemName) => {
-  const k = `${cafeId}__${makeKey(itemName)}`;
-  const d = ratingsCache[k];
-  if (!d || !d.count) return null;
-  return { avg: d.avg, count: d.count, ratings: d.reviews || [] };
+const RENAME_ALIASES = {
+  'underbelly__tandoori_chicken_half': ['underbelly__tandoori_chicken_full'],
+  'dakshin__tandoori_chicken':         ['dakshin__tandoori_chicken_1_2', 'dakshin__tandoori_chicken_full']
 };
 
+const getAvg = (cafeId, itemName) => {
+  const k = `${cafeId}__${makeKey(itemName)}`;
+  const aliasKeys = RENAME_ALIASES[k] || [];
+  const sources = [ratingsCache[k], ...aliasKeys.map(ak => ratingsCache[ak])].filter(d => d && d.count);
+
+  if (!sources.length) return null;
+
+  const count   = sources.reduce((s, d) => s + d.count, 0);
+  const avg     = sources.reduce((s, d) => s + d.avg * d.count, 0) / count;
+  const reviews = sources.flatMap(d => d.reviews || [])
+                          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+  return { avg: Math.round(avg * 100) / 100, count, ratings: reviews };
+};
+  
 // Load ALL ratings from MongoDB in one request
 async function loadAllRatings() {
   try {
