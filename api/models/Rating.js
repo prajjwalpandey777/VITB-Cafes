@@ -7,11 +7,15 @@ const ratingSchema = new mongoose.Schema(
     itemKey: { type: String, required: true, trim: true, maxlength: 150 },
     rating: { type: Number, required: true, min: 1, max: 5 },
     name: { type: String, trim: true, maxlength: 60, default: 'Anonymous VITian' },
-    review: { type: String, trim: true, maxlength: 400, default: '' }
+    review: { type: String, trim: true, maxlength: 400, default: '' },
+    clientId: { type: String, trim: true, maxlength: 100, default: '' },
+    ip: { type: String, trim: true, maxlength: 100, default: '' }
   },
   { timestamps: true, versionKey: false }
 );
 
 ratingSchema.index({ cafeId: 1, itemKey: 1, createdAt: -1 });
+// Speeds up the "has this device+IP already rated this dish recently?" check.
+ratingSchema.index({ cafeId: 1, itemKey: 1, clientId: 1, ip: 1, createdAt: -1 });
 
 module.exports = mongoose.models.Rating || mongoose.model('Rating', ratingSchema);
