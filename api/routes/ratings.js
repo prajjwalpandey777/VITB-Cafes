@@ -1,8 +1,9 @@
 const express = require('express');
 const rateLimit = require('express-rate-limit');
 const Rating = require('../models/Rating');
-const { cleanText, makeItemKey } = require('../utils/text');
+const { cleanText, makeItemKey, validateReviewText } = require('../utils/text');
 const { isRealMenuItem } = require('../utils/menu');
+const { verifyRecaptcha, MIN_SCORE } = require('../utils/recaptcha');
 
 const router = express.Router();
 const CACHE_TTL_MS = 20_000;
@@ -113,6 +114,13 @@ router.post('/', submitLimiter, async (req, res, next) => {
       return res.status(400).json({ error: 'rating must be an integer from 1 to 5.' });
     }
 
+    // Verify this submission actually came from a real browser, not a script/bot.
+    // Checked early, before any database work, so bots fail fast and cheaply.
+    const recaptchaResult = await verifyRecaptcha(req.body.recaptchaToken);
+    if (!recaptchaResult.success || recaptchaResult.score < MIN_SCORE) {
+      return res.status(403).json({ error: 'Automated submission detected. Please try again from a normal browser.' });
+    }
+
     // Reject ratings for cafés/dishes that don't actually exist on the menu.
     // This is what stops garbage/spam/stress-test data from ever reaching the database.
     if (!isRealMenuItem(cafeId, itemName)) {
@@ -121,6 +129,10 @@ router.post('/', submitLimiter, async (req, res, next) => {
 
     const itemKey = makeItemKey(itemName);
     if (!itemKey) return res.status(400).json({ error: 'Invalid itemName.' });
+
+    const review = cleanText(req.body.review, 400);
+    const reviewError = validateReviewText(review);
+    if (reviewError) return res.status(400).json({ error: reviewError });
 
     // Per-device+IP cooldown: the same phone/browser on the same network
     // can rate a dish at most twice in 24 hours. Requiring BOTH clientId
@@ -153,7 +165,7 @@ router.post('/', submitLimiter, async (req, res, next) => {
       itemKey,
       rating,
       name: cleanText(req.body.name, 60, 'Anonymous VITian'),
-      review: cleanText(req.body.review, 400),
+      review,
       clientId,
       ip
     });
