@@ -122,13 +122,40 @@ router.post('/', submitLimiter, async (req, res, next) => {
     const itemKey = makeItemKey(itemName);
     if (!itemKey) return res.status(400).json({ error: 'Invalid itemName.' });
 
+    // Per-device+IP cooldown: the same phone/browser on the same network
+    // can rate a dish at most twice in 24 hours. Requiring BOTH clientId
+    // and IP to match (not either alone) avoids falsely blocking other
+    // students who share the same IP on campus WiFi.
+    const clientId = cleanText(req.body.clientId, 100);
+    const ip = cleanText(req.ip, 100);
+    const MAX_RATINGS_PER_DISH_PER_DAY = 2;
+
+    if (clientId && ip) {
+      const cooldownStart = new Date(Date.now() - 24 * 60 * 60 * 1000);
+      const recentCount = await Rating.countDocuments({
+        cafeId,
+        itemKey,
+        clientId,
+        ip,
+        createdAt: { $gte: cooldownStart }
+      });
+
+      if (recentCount >= MAX_RATINGS_PER_DISH_PER_DAY) {
+        return res.status(429).json({
+          error: 'You have already rated this dish the maximum number of times today. Please try again tomorrow.'
+        });
+      }
+    }
+
     await Rating.create({
       cafeId,
       itemName,
       itemKey,
       rating,
       name: cleanText(req.body.name, 60, 'Anonymous VITian'),
-      review: cleanText(req.body.review, 400)
+      review: cleanText(req.body.review, 400),
+      clientId,
+      ip
     });
 
     invalidateCache();
