@@ -31,7 +31,7 @@ async function main() {
   await mongoose.connect(uri, { serverSelectionTimeoutMS: 10000 });
   console.log('Connected.\n');
 
-  const all = await Rating.find({}).lean(false);
+  const all = await Rating.find({}).lean(false); // lean(false) = get real documents we can .save()
   console.log(`Found ${all.length} total rating documents.\n`);
 
   let mismatched = 0;
@@ -57,6 +57,7 @@ async function main() {
 
   console.log(`Mismatched documents found: ${mismatched}\n`);
 
+  // Show up to 20 examples either way
   preview.slice(0, 20).forEach(p => {
     console.log(`  "${p.itemName}"  |  old: ${p.oldKey}  ->  new: ${p.newKey}`);
   });
