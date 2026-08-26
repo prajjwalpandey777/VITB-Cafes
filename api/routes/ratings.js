@@ -2,6 +2,7 @@ const express = require('express');
 const rateLimit = require('express-rate-limit');
 const Rating = require('../models/Rating');
 const { cleanText, makeItemKey } = require('../utils/text');
+const { isRealMenuItem } = require('../utils/menu');
 
 const router = express.Router();
 const CACHE_TTL_MS = 20_000;
@@ -110,6 +111,12 @@ router.post('/', submitLimiter, async (req, res, next) => {
     }
     if (!Number.isInteger(rating) || rating < 1 || rating > 5) {
       return res.status(400).json({ error: 'rating must be an integer from 1 to 5.' });
+    }
+
+    // Reject ratings for cafés/dishes that don't actually exist on the menu.
+    // This is what stops garbage/spam/stress-test data from ever reaching the database.
+    if (!isRealMenuItem(cafeId, itemName)) {
+      return res.status(400).json({ error: 'This dish or café does not exist on the menu.' });
     }
 
     const itemKey = makeItemKey(itemName);
