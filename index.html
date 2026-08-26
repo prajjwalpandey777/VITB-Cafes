@@ -1183,12 +1183,24 @@ async function loadAllRatings() {
 }
 
 // POST a new rating to MongoDB, then update local cache
+// One random ID per browser, persisted so it survives reloads.
+// Used server-side to stop the same browser from re-rating a dish repeatedly
+// (not tied to IP, since many students share the same campus WiFi IP).
+function getClientId() {
+  let id = localStorage.getItem('vitb_client_id');
+  if (!id) {
+    id = 'c_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 12);
+    localStorage.setItem('vitb_client_id', id);
+  }
+  return id;
+}
+
 async function saveR(cafeId, itemName, rating, name, review) {
   try {
     const res = await fetch(`${API_BASE}/api/ratings`, {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ cafeId, itemName, rating, name, review }),
+      body: JSON.stringify({ cafeId, itemName, rating, name, review, clientId: getClientId() }),
     });
     if (!res.ok) {
       const err = await res.json().catch(()=>({}));
