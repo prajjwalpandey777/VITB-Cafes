@@ -33,6 +33,8 @@
 <link rel="apple-touch-icon" href="/logo.png" />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/style.css">
+<script src="https://www.google.com/recaptcha/api.js?render=6LeXz5ktAAAAACUxsPP5NMc-JoMLRFuOPp93WVwL"></script>
+
 
 </head>
 <body>
@@ -1195,12 +1197,30 @@ function getClientId() {
   return id;
 }
 
+const RECAPTCHA_SITE_KEY = '6LeXz5ktAAAAACUxsPP5NMc-JoMLRFuOPp93WVwL';
+
+// Gets an invisible reCAPTCHA v3 token proving this submission came from a
+// real browser. Fails soft (empty token) if the script didn't load, so a
+// blocked/slow network doesn't stop someone from submitting entirely —
+// the backend still checks the token, it just won't pass without one.
+function getRecaptchaToken(action) {
+  return new Promise((resolve) => {
+    if (typeof grecaptcha === 'undefined') return resolve('');
+    grecaptcha.ready(() => {
+      grecaptcha.execute(RECAPTCHA_SITE_KEY, { action })
+        .then(resolve)
+        .catch(() => resolve(''));
+    });
+  });
+}
+
 async function saveR(cafeId, itemName, rating, name, review) {
   try {
+    const recaptchaToken = await getRecaptchaToken('submit_rating');
     const res = await fetch(`${API_BASE}/api/ratings`, {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ cafeId, itemName, rating, name, review, clientId: getClientId() }),
+      body: JSON.stringify({ cafeId, itemName, rating, name, review, clientId: getClientId(), recaptchaToken }),
     });
     if (!res.ok) {
       const err = await res.json().catch(()=>({}));
