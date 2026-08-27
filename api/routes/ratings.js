@@ -1,7 +1,7 @@
 const express = require('express');
 const rateLimit = require('express-rate-limit');
 const Rating = require('../models/Rating');
-const { cleanText, makeItemKey, validateReviewText } = require('../utils/text');
+const { cleanText, makeItemKey, validateReviewText, isBotLikeName } = require('../utils/text');
 const { isRealMenuItem } = require('../utils/menu');
 const { verifyRecaptcha, MIN_SCORE } = require('../utils/recaptcha');
 
@@ -134,6 +134,11 @@ router.post('/', submitLimiter, async (req, res, next) => {
     const reviewError = validateReviewText(review);
     if (reviewError) return res.status(400).json({ error: reviewError });
 
+    const submittedName = cleanText(req.body.name, 60, 'Anonymous VITian');
+    if (isBotLikeName(submittedName)) {
+      return res.status(400).json({ error: 'This name looks automated and cannot be used.' });
+    }
+
     // Per-device+IP cooldown: the same phone/browser on the same network
     // can rate a dish at most twice in 24 hours. Requiring BOTH clientId
     // and IP to match (not either alone) avoids falsely blocking other
@@ -164,7 +169,7 @@ router.post('/', submitLimiter, async (req, res, next) => {
       itemName,
       itemKey,
       rating,
-      name: cleanText(req.body.name, 60, 'Anonymous VITian'),
+      name: submittedName,
       review,
       clientId,
       ip
