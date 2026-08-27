@@ -1590,7 +1590,10 @@ $si.addEventListener('input',()=>{const q=$si.value.trim();if(!q){clearSearch();
 $si.addEventListener('keydown',e=>{
   if(e.key!=='Enter'||e.isComposing||!$si.value.trim())return;
   e.preventDefault();
-  $si.blur(); // Dismiss the mobile keyboard; tap the field again to search more.
+  // Delay slightly so this runs AFTER the browser's own native handling of
+  // the Enter/Go key finishes — blurring synchronously here gets overridden
+  // by some mobile keyboards (notably Android), leaving the keyboard open.
+  setTimeout(()=>{ $si.blur(); if(document.activeElement===$si) document.activeElement.blur(); }, 0);
 });
 function clearSearch(){$si.value='';$sv.classList.remove('on');$mv.style.display=''}
 function runSearch(q){
