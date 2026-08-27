@@ -1155,7 +1155,19 @@ let cacheLoaded  = false;
 
 // Convert item name → same key format used by backend
 const makeKey = n => n.trim().toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_+|_+$/g,'');
-
+  
+// Escapes user-submitted text before inserting it into HTML — a second,
+// independent layer of XSS protection on top of the backend's own
+// sanitization. Applied at render time so even if raw markup ever slipped
+// past the backend (a bug, a future code path, etc.), it still can't execute.
+function escapeHtml(str) {
+  return String(str ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
 // Lookup helper — mirrors old getAvg()
 const RENAME_ALIASES = {
   'underbelly__tandoori_chicken_half': ['underbelly__tandoori_chicken_full'],
@@ -1678,9 +1690,9 @@ function openModal(cafeId,itemName,mode='rate'){
     ${revs.slice(0,50).map(r=>`<div class="m-rv">
       <div class="m-rv-top">
         <span style="color:#F0A030;font-size:.82rem">${'★'.repeat(r.rating)}<span style="color:#D0B898">${'★'.repeat(5-r.rating)}</span></span>
-        <span class="m-rv-name">${r.name}</span>
+        <span class="m-rv-name">${escapeHtml(r.name)}</span>
       </div>
-      ${(r.review||r.text)?`<div class="m-rv-text">${r.review||r.text}</div>`:''}</div>`).join('')}`:(viewOnly?`<div class="m-no-reviews">No written reviews yet.</div>`:'');
+      ${(r.review||r.text)?`<div class="m-rv-text">${escapeHtml(r.review||r.text)}</div>`:''}</div>`).join('')}`:(viewOnly?`<div class="m-no-reviews">No written reviews yet.</div>`:'');
 
   document.getElementById('overlay').classList.add('open');
 }
