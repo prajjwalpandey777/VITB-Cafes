@@ -1802,12 +1802,26 @@ function showToast(msg){
 
 /* ══════════════════════════════════════ INIT */
 async function init() {
-  // Show loading state on stats while fetching
+  // Render the entire menu IMMEDIATELY — don't make people wait for the
+  // ratings network request just to see the menu itself. Cards render with
+  // "no ratings yet" and get filled in the instant real data arrives.
+  buildUI();
+
   document.getElementById('st-ratings').textContent = '…';
   document.getElementById('st-dishes').textContent  = CAFES.reduce((s,c)=>s+c.items.length,0);
 
-  await loadAllRatings();   // fetch all ratings from MongoDB
-  buildUI();                // render the full UI with real data
+  await loadAllRatings();  // fetch all ratings from MongoDB, in the background
+
+  // Remember which café tab the user is currently looking at, in case they
+  // switched away from the default while ratings were still loading.
+  const activeId = document.querySelector('.cafe-tab.active')?.dataset.id;
+
+  buildUI();  // re-render with real rating data now available
+
+  if (activeId) {
+    const tab = document.querySelector(`.cafe-tab[data-id="${activeId}"]`);
+    if (tab) tab.click();
+  }
 }
 init();
 
